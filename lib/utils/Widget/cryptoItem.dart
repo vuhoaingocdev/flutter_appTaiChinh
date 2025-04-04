@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CryptoItem extends StatelessWidget {
   final String name;
@@ -146,6 +147,7 @@ class _cryptoListState extends State<CryptoList> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     // Nếu chưa mở rộng, chỉ hiển thị 5 item đầu tiên
     final displayedItems =
         isExpanded ? cryptoItems : cryptoItems.take(5).toList();
@@ -174,9 +176,9 @@ class _cryptoListState extends State<CryptoList> {
                   isExpanded = true;
                 });
               },
-              child: const Text(
-                'Xem thêm',
-                style: TextStyle(color: Colors.red, fontSize: 15),
+              child: Text(
+                appLocalizations.seeMore,
+                style: const TextStyle(color: Colors.red, fontSize: 15),
               ),
             ),
         ],

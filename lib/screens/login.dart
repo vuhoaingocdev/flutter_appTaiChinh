@@ -1,7 +1,9 @@
 import 'package:app_taichinh/screens/EntityNameScreen.dart';
 import 'package:app_taichinh/screens/Home/home.dart';
+import 'package:app_taichinh/screens/changeLanguage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,29 +21,33 @@ class HandleDangNhap extends State<Login> {
   final TextEditingController _passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //nút chuyển ngôn ngữ
             const SizedBox(height: 50),
-            const Text(
-              'Chào mừng bạn đến với Binance',
-              style: TextStyle(
+            const ChangeLanguage(),
+            const SizedBox(height: 20),
+            Text(
+              appLocalizations.chaoMungDenVoiBinance,
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 20),
-            Text('Email/Số điện thoại',
+            Text(appLocalizations.email_sdt,
                 style: TextStyle(fontSize: 16, color: Colors.grey[700])),
             //email
             const SizedBox(height: 5),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
-                hintText: 'Email/Số điện thoại (không có mã quốc gia)',
+                hintText: appLocalizations.validateEmail,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -68,7 +74,7 @@ class HandleDangNhap extends State<Login> {
               controller: _passController,
               obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
-                hintText: 'Mật khẩu',
+                hintText: appLocalizations.password,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -102,28 +108,26 @@ class HandleDangNhap extends State<Login> {
                 ),
                 Expanded(
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    text: TextSpan(
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       children: [
+                        TextSpan(text: appLocalizations.note1),
                         TextSpan(
-                            text:
-                                'Thông qua việc tạo một tài khoản, tôi đồng ý với '),
-                        TextSpan(
-                          text: 'Điều khoản dịch vụ',
-                          style: TextStyle(
+                          text: appLocalizations.note2,
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blue,
                           ),
                         ),
-                        TextSpan(text: ' và '),
+                        TextSpan(text: appLocalizations.noteAnd),
                         TextSpan(
-                          text: 'Chính sách quyền riêng tư',
-                          style: TextStyle(
+                          text: appLocalizations.note3,
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blue,
                           ),
                         ),
-                        TextSpan(text: ' của Binance.'),
+                        TextSpan(text: appLocalizations.note4),
                       ],
                     ),
                   ),
@@ -142,8 +146,8 @@ class HandleDangNhap extends State<Login> {
                   MaterialPageRoute(builder: (context) => const Home()),
                 );
               },
-              child: const Text('Tiếp theo',
-                  style: TextStyle(
+              child: Text(appLocalizations.next,
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -155,9 +159,10 @@ class HandleDangNhap extends State<Login> {
                 Expanded(
                   child: Divider(color: Colors.grey[400], thickness: 1),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text('hoặc', style: TextStyle(fontSize: 16)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(appLocalizations.or,
+                      style: const TextStyle(fontSize: 16)),
                 ),
                 Expanded(
                   child: Divider(color: Colors.grey[400], thickness: 1),
@@ -174,11 +179,11 @@ class HandleDangNhap extends State<Login> {
               child: Row(
                 children: [
                   Image.asset('assets/images/google.png', height: 20),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Tiếp tục với Google',
+                      appLocalizations.continueWithGoogle,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
@@ -197,11 +202,11 @@ class HandleDangNhap extends State<Login> {
               child: Row(
                 children: [
                   Image.asset('assets/images/telegram.png', height: 20),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Tiếp tục với Telegram',
+                      appLocalizations.continueWithTelegram,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
@@ -217,7 +222,7 @@ class HandleDangNhap extends State<Login> {
                   style: const TextStyle(fontSize: 14, color: Colors.black),
                   children: [
                     TextSpan(
-                      text: 'Đăng ký với tư cách là một pháp nhân ',
+                      text: appLocalizations.registerAsALegalEntity,
                       style: const TextStyle(color: Colors.orange),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -228,9 +233,9 @@ class HandleDangNhap extends State<Login> {
                           );
                         },
                     ),
-                    const TextSpan(text: 'hoặc '),
+                    TextSpan(text: appLocalizations.or),
                     TextSpan(
-                      text: 'Đăng nhập',
+                      text: appLocalizations.logIn,
                       style: const TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -240,7 +245,7 @@ class HandleDangNhap extends State<Login> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

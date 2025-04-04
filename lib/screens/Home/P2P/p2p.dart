@@ -1,5 +1,6 @@
 import 'package:app_taichinh/screens/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class P2PTradingScreen extends StatefulWidget {
   const P2PTradingScreen({super.key});
@@ -17,6 +18,7 @@ class _P2PTradingScreenState extends State<P2PTradingScreen> {
   String selectedPayment = 'Thanh toán';
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -59,14 +61,14 @@ class _P2PTradingScreenState extends State<P2PTradingScreen> {
                   Row(
                     children: [
                       // Tabs Mua/Bán căn trái
-                      const SizedBox(
+                      SizedBox(
                         width: 150,
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: TabBar(
                             labelColor: Colors.white,
                             unselectedLabelColor: Colors.black,
-                            indicator: BoxDecoration(
+                            indicator: const BoxDecoration(
                               color: Colors.black,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15)),
@@ -75,12 +77,12 @@ class _P2PTradingScreenState extends State<P2PTradingScreen> {
                             indicatorPadding: EdgeInsets.zero,
                             tabs: [
                               Tab(
-                                child:
-                                    Text('Mua', style: TextStyle(fontSize: 14)),
+                                child: Text(appLocalizations.buy,
+                                    style: const TextStyle(fontSize: 14)),
                               ),
                               Tab(
-                                child:
-                                    Text('Bán', style: TextStyle(fontSize: 14)),
+                                child: Text(appLocalizations.sell,
+                                    style: const TextStyle(fontSize: 14)),
                               ),
                             ],
                           ),

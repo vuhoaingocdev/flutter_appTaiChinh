@@ -7,6 +7,7 @@ import 'package:app_taichinh/utils/Widget/categoryButton.dart';
 import 'package:app_taichinh/utils/Widget/cryptoItem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -36,6 +37,7 @@ class HandleHome extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -82,8 +84,8 @@ class HandleHome extends State<Home> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Tổng giá trị dự kiến (VNĐ) ',
-                      style: TextStyle(fontSize: 14)),
+                  Text(appLocalizations.totalEstimatedValue,
+                      style: const TextStyle(fontSize: 14)),
                   const SizedBox(
                     height: 15,
                   ),
@@ -98,9 +100,9 @@ class HandleHome extends State<Home> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellow[700],
                         ),
-                        child: const Text(
-                          'Nạp tiền',
-                          style: TextStyle(color: Colors.black),
+                        child: Text(
+                          appLocalizations.depositMoney,
+                          style: const TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
@@ -147,7 +149,7 @@ class HandleHome extends State<Home> {
                 ),
                 CategoryButtonImage(
                   imagePath: 'assets/images/problem.png',
-                  label: 'Câu hỏi thường gặp',
+                  label: appLocalizations.frequentlyAskedQuestions,
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -158,7 +160,7 @@ class HandleHome extends State<Home> {
                 ),
                 CategoryButtonImage(
                   imagePath: 'assets/images/other.png',
-                  label: 'Nhiều hơn',
+                  label: appLocalizations.more,
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -187,7 +189,7 @@ class HandleHome extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CategoryButton(
-                      label: 'Danh sách yêu thích',
+                      label: appLocalizations.favoritesList,
                       index: 0,
                       isSelected: selectedIndex == 0,
                       onPressed: () {
@@ -197,7 +199,7 @@ class HandleHome extends State<Home> {
                       },
                     ),
                     CategoryButton(
-                      label: 'Tăng giá',
+                      label: appLocalizations.priceIncrease,
                       index: 1,
                       isSelected: selectedIndex == 1,
                       onPressed: () {
@@ -207,7 +209,7 @@ class HandleHome extends State<Home> {
                       },
                     ),
                     CategoryButton(
-                      label: 'Giá cả lợi nhuận',
+                      label: appLocalizations.profitPrice,
                       index: 2,
                       isSelected: selectedIndex == 2,
                       onPressed: () {
@@ -217,22 +219,12 @@ class HandleHome extends State<Home> {
                       },
                     ),
                     CategoryButton(
-                      label: 'Giá cả thị trường',
+                      label: appLocalizations.marketPrice,
                       index: 3,
                       isSelected: selectedIndex == 3,
                       onPressed: () {
                         setState(() {
                           selectedIndex = 3;
-                        });
-                      },
-                    ),
-                    CategoryButton(
-                      label: 'Giá cả thị trường',
-                      index: 4,
-                      isSelected: selectedIndex == 4,
-                      onPressed: () {
-                        setState(() {
-                          selectedIndex = 4;
                         });
                       },
                     ),
@@ -245,27 +237,27 @@ class HandleHome extends State<Home> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
-                child: const Row(
+                child: Row(
                   children: [
                     Expanded(
                       flex: 3,
                       child: Text(
-                        'Tên',
-                        style: TextStyle(fontSize: 14),
+                        appLocalizations.name,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     Expanded(
                       flex: 3,
                       child: Text(
-                        'Giá gần nhất',
-                        style: TextStyle(fontSize: 14),
+                        appLocalizations.latestPrice,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     Expanded(
                       flex: 2,
                       child: Text(
-                        'Biến động (%)',
-                        style: TextStyle(fontSize: 14),
+                        appLocalizations.volatility,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                   ],
@@ -289,16 +281,21 @@ class HandleHome extends State<Home> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.show_chart), label: 'Thị trường'),
+                icon: const Icon(Icons.home), label: appLocalizations.homePage),
             BottomNavigationBarItem(
-                icon: Icon(Icons.swap_horiz), label: 'Giao dịch'),
+                icon: const Icon(Icons.show_chart),
+                label: appLocalizations.market),
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.chartLine), label: 'Futures'),
+                icon: const Icon(Icons.swap_horiz),
+                label: appLocalizations.transaction),
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_wallet), label: 'Tài sản'),
+                icon: const Icon(FontAwesomeIcons.chartLine),
+                label: appLocalizations.futures),
+            BottomNavigationBarItem(
+                icon: const Icon(Icons.account_balance_wallet),
+                label: appLocalizations.asset),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.yellow[700],
