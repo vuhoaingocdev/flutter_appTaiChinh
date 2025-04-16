@@ -89,7 +89,7 @@ class CategoryButton extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 15,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               maxLines: 2,
@@ -99,7 +99,7 @@ class CategoryButton extends StatelessWidget {
             const SizedBox(height: 5),
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              width: isSelected ? 40 : 0,
+              width: isSelected ? 30 : 0,
               height: 3,
               color: Colors.blue,
             ),
