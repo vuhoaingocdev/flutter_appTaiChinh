@@ -1,6 +1,5 @@
 import 'package:app_taichinh/screens/FooterScreens/ThiTruong/danhSachYeuThich.dart';
 import 'package:app_taichinh/screens/Home/home.dart';
-import 'package:app_taichinh/utils/Widget/BieudoDuLieu/demoBieuDo.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,12 +39,7 @@ class _CustomFooterState extends State<CustomFooter> {
         context,
         MaterialPageRoute(builder: (context) => const DanhSachYeuThich()),
       );
-    } else if (index == 2) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MyBarChart()),
-      );
-    }
+    } else if (index == 2) {}
   }
 
   @override

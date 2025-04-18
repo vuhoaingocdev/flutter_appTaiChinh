@@ -1,21 +1,42 @@
 import 'package:app_taichinh/config/appConfig.dart';
+import 'package:app_taichinh/provider/accountNameScreen_provider.dart';
+import 'package:app_taichinh/provider/entityNameScreen_provider.dart';
 import 'package:app_taichinh/screens/login.dart';
+import 'package:app_taichinh/provider/login_provider.dart';
 import 'package:app_taichinh/utils/localStorage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+// void main() async {
+//   // Khởi tạo Flutter framework
+//   WidgetsFlutterBinding.ensureInitialized();
+//   // Chạy ứng dụng
+//   runApp(MaterialApp(
+//     theme: ThemeData(
+//       fontFamily: 'Time News Roman',
+//     ),
+//     home: const MyApp(),
+//   ));
+// }
+
 void main() async {
-  // Khởi tạo Flutter framework
   WidgetsFlutterBinding.ensureInitialized();
-  // Chạy ứng dụng
-  runApp(MaterialApp(
-    theme: ThemeData(
-      fontFamily: 'Time News Roman',
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => EntityNameScreenProvider()),
+        ChangeNotifierProvider(create: (_) => AccountNameScreenProvider())
+      ],
+      child: MaterialApp(
+        theme: ThemeData(fontFamily: 'Time News Roman'),
+        home: const MyApp(),
+      ),
     ),
-    home: const MyApp(),
-  ));
+  );
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

@@ -1,9 +1,11 @@
 import 'package:app_taichinh/screens/EntityNameScreen.dart';
 import 'package:app_taichinh/screens/Home/home.dart';
 import 'package:app_taichinh/screens/changeLanguage.dart';
+import 'package:app_taichinh/provider/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,13 +17,36 @@ class Login extends StatefulWidget {
 }
 
 class HandleDangNhap extends State<Login> {
-  bool _isChecked = true;
-  bool _isPasswordVisible = false;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+  late TextEditingController emailController;
+  late TextEditingController passController;
+
+  @override
+  void initState() {
+    super.initState();
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    emailController = TextEditingController(text: loginProvider.email);
+    passController = TextEditingController(text: loginProvider.password);
+
+    emailController.addListener(() {
+      loginProvider.updateEmail(emailController.text);
+    });
+
+    passController.addListener(() {
+      loginProvider.updatePassword(passController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+    final loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -45,7 +70,7 @@ class HandleDangNhap extends State<Login> {
             //email
             const SizedBox(height: 5),
             TextField(
-              controller: _emailController,
+              controller: emailController,
               decoration: InputDecoration(
                 hintText: appLocalizations.validateEmail,
                 border: OutlineInputBorder(
@@ -53,26 +78,22 @@ class HandleDangNhap extends State<Login> {
                 ),
                 filled: true,
                 fillColor: Colors.grey[200],
-                suffixIcon: _emailController.text.isNotEmpty
+                suffixIcon: emailController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear_outlined),
                         onPressed: () {
-                          setState(() {
-                            _emailController.clear();
-                          });
+                          loginProvider.clearEmail();
+                          emailController.clear();
                         },
                       )
                     : null,
               ),
-              onChanged: (value) {
-                setState(() {});
-              },
             ),
             //password
             const SizedBox(height: 10),
             TextField(
-              controller: _passController,
-              obscureText: !_isPasswordVisible,
+              controller: passController,
+              obscureText: !loginProvider.isPasswordVisible,
               decoration: InputDecoration(
                 hintText: appLocalizations.password,
                 border: OutlineInputBorder(
@@ -82,15 +103,11 @@ class HandleDangNhap extends State<Login> {
                 fillColor: Colors.grey[200],
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _isPasswordVisible
+                    loginProvider.isPasswordVisible
                         ? Icons.visibility
                         : Icons.visibility_off,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
+                  onPressed: loginProvider.togglePasswordVisibility,
                 ),
               ),
             ),
@@ -98,13 +115,10 @@ class HandleDangNhap extends State<Login> {
             Row(
               children: [
                 Checkbox(
-                  value: _isChecked,
+                  value: loginProvider.isChecked,
                   activeColor: Colors.black,
-                  onChanged: (value) {
-                    setState(() {
-                      _isChecked = value!;
-                    });
-                  },
+                  onChanged: (value) =>
+                      loginProvider.toggleCheckbox(value ?? false),
                 ),
                 Expanded(
                   child: RichText(

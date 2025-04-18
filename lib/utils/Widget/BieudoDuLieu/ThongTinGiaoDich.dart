@@ -893,6 +893,9 @@ class _BinanceChartCloneState extends State<BinanceChartClone> {
                   ],
                 ),
                 //footer
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                   height: 100,
                   color: Colors.orange,

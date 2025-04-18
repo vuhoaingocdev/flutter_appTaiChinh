@@ -1,7 +1,9 @@
+import 'package:app_taichinh/provider/entityNameScreen_provider.dart';
 import 'package:app_taichinh/screens/accountNameScreen.dart';
 import 'package:app_taichinh/screens/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class entitynamescreen extends StatefulWidget {
   const entitynamescreen({super.key});
@@ -13,9 +15,30 @@ class entitynamescreen extends StatefulWidget {
 }
 
 class HandleEntitynamescreen extends State<entitynamescreen> {
-  final TextEditingController _nameController = TextEditingController();
+  late TextEditingController nameController;
+  @override
+  void initState() {
+    super.initState();
+    final entityNameScreenProvider =
+        Provider.of<EntityNameScreenProvider>(context, listen: false);
+
+    nameController = TextEditingController(text: entityNameScreenProvider.name);
+
+    nameController.addListener(() {
+      entityNameScreenProvider.updateName(nameController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final entityNameScreenProvider =
+        Provider.of<EntityNameScreenProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -45,7 +68,7 @@ class HandleEntitynamescreen extends State<entitynamescreen> {
               const Text('Tên pháp nhân', style: TextStyle(fontSize: 16)),
               const SizedBox(height: 10),
               TextField(
-                controller: _nameController,
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: 'Email/Số điện thoại (không có mã quốc gia)',
                   border: OutlineInputBorder(
@@ -53,20 +76,16 @@ class HandleEntitynamescreen extends State<entitynamescreen> {
                   ),
                   filled: true,
                   fillColor: Colors.grey[200],
-                  suffixIcon: _nameController.text.isNotEmpty
+                  suffixIcon: nameController.text.isNotEmpty
                       ? IconButton(
                           icon: const Icon(Icons.clear_outlined),
                           onPressed: () {
-                            setState(() {
-                              _nameController.clear();
-                            });
+                            entityNameScreenProvider.clearName();
+                            nameController.clear();
                           },
                         )
                       : null,
                 ),
-                onChanged: (value) {
-                  setState(() {});
-                },
               ),
               const SizedBox(height: 20),
               SizedBox(

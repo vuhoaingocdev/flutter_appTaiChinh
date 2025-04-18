@@ -1,5 +1,7 @@
+import 'package:app_taichinh/provider/accountNameScreen_provider.dart';
 import 'package:app_taichinh/screens/EntityNameScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class accountNamescreen extends StatefulWidget {
   const accountNamescreen({super.key});
@@ -11,10 +13,32 @@ class accountNamescreen extends StatefulWidget {
 }
 
 class HandleAccountNamescreen extends State<accountNamescreen> {
-  bool _isChecked = true;
-  final TextEditingController _emailController = TextEditingController();
+  late TextEditingController emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    final accountNamescreenProvider =
+        Provider.of<AccountNameScreenProvider>(context, listen: false);
+
+    emailController =
+        TextEditingController(text: accountNamescreenProvider.email);
+
+    emailController.addListener(() {
+      accountNamescreenProvider.updateEmail(emailController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final accountNamescreenProvider =
+        Provider.of<AccountNameScreenProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -45,40 +69,32 @@ class HandleAccountNamescreen extends State<accountNamescreen> {
               const Text('Email', style: TextStyle(fontSize: 16)),
               const SizedBox(height: 10),
               TextField(
-                controller: _emailController,
+                controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   filled: true,
                   fillColor: Colors.grey[200],
-                  suffixIcon: _emailController.text.isNotEmpty
+                  suffixIcon: emailController.text.isNotEmpty
                       ? IconButton(
                           icon: const Icon(Icons.clear_outlined),
                           onPressed: () {
-                            setState(() {
-                              _emailController.clear();
-                            });
+                            accountNamescreenProvider.clearEmail();
+                            emailController.clear();
                           },
                         )
                       : null,
                 ),
-                onChanged: (value) {
-                  setState(() {});
-                },
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
                   Checkbox(
-                    value: _isChecked,
-                    activeColor: Colors.black,
-                    onChanged: (value) {
-                      setState(() {
-                        _isChecked = value!;
-                      });
-                    },
-                  ),
+                      value: accountNamescreenProvider.isChecked,
+                      activeColor: Colors.black,
+                      onChanged: (value) => accountNamescreenProvider
+                          .toggleCheckbox(value ?? false)),
                   Expanded(
                     child: RichText(
                       text: const TextSpan(
